@@ -1,0 +1,80 @@
+build/
+/Debug/
+third_party/mbedtls
+third_party/winpcap
+third_party/sqlite
+lib60870-C/dependencies/mbedtls*
+
+# VS2022 Solution and Project files
+#lib60870-C/winbuild/*.sln
+#lib60870-C/winbuild/*.vcxproj
+#lib60870-C/winbuild/*.vcxproj.filters
+#lib60870-C/winbuild/*.vcxproj.user
+
+# VS build directories
+lib60870-C/winbuild/CMakeFiles/
+lib60870-C/winbuild/tests/
+
+lib60870-C/winbuild/Debug/
+lib60870-C/winbuild/Release/
+lib60870-C/winbuild/x64/
+lib60870-C/winbuild/Win32/
+lib60870-C/winbuild/*.dir/
+
+# VS temporary files
+lib60870-C/winbuild/.vs/
+lib60870-C/winbuild/ipch/
+lib60870-C/winbuild/*.opensdf
+lib60870-C/winbuild/*.sdf
+lib60870-C/winbuild/*.suo
+lib60870-C/winbuild/*.user
+lib60870-C/winbuild/*.db
+lib60870-C/winbuild/*.tlog
+lib60870-C/winbuild/*.log
+lib60870-C/winbuild/*.idb
+lib60870-C/winbuild/*.pdb
+lib60870-C/winbuild/*.ilk
+lib60870-C/winbuild/*.exp
+lib60870-C/winbuild/*.lib
+lib60870-C/winbuild/*.exe
+lib60870-C/winbuild/*.dll
+
+# C/C++ compiled files
+*.obj
+*.o
+*.a
+*.lib
+*.dll
+*.exe
+*.so
+*.dylib
+
+# Precompiled headers
+*.pch
+*.gch
+
+# Debug symbols
+*.sym
+*.map
+
+# Other common ignores
+*.aps
+*.ncb
+*.sbr
+*.bsc
+*.cache
+*.ilk
+*.meta
+*.msi
+*.msp
+*.scc
+Thumbs.db
+[Bb]in/
+[Oo]bj/
+
+# cmake
+*.cmake
+*.stamp
+*.stamp.depend
+CMakeCache.txt
+/lib60870-C/winbuild/src/lib60870-shared.dir

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\code\lib60870\lib60870-C\examples\cs104_server\simple_server.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\code\lib60870\lib60870-C\examples\cs104_server\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{A929F1A7-2DE7-3E5C-9988-7070C55A9CBE}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
