@@ -184,6 +184,7 @@ main(int argc, char** argv)
     CS104_Connection_destroy(con);
 
     printf("exit\n");
+    getchar();
 }
 
 

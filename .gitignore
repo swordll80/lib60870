@@ -58,6 +58,7 @@ lib60870-C/winbuild/*.dll
 *.map
 
 # Other common ignores
+*.pdb
 *.aps
 *.ncb
 *.sbr
@@ -78,3 +79,7 @@ Thumbs.db
 *.stamp.depend
 CMakeCache.txt
 /lib60870-C/winbuild/src/lib60870-shared.dir
+/lib60870-C/winbuild/examples/cs104_client/simple_client.dir
+/lib60870-C/winbuild/examples/cs104_server/cs104_server.dir
+/lib60870-C/winbuild/src/lib60870.dir
+*.docx
