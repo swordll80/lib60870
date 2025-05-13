@@ -1,13 +1,13 @@
 #include "cs104_connection.h"
-#include "hal_time.h"
 #include "hal_thread.h"
+#include "hal_time.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 
 /* Callback handler to log sent or received messages (optional) */
 static void
-rawMessageHandler (void* parameter, uint8_t* msg, int msgSize, bool sent)
+rawMessageHandler(void* parameter, uint8_t* msg, int msgSize, bool sent)
 {
     if (sent)
         printf("SEND: ");
@@ -15,7 +15,8 @@ rawMessageHandler (void* parameter, uint8_t* msg, int msgSize, bool sent)
         printf("RCVD: ");
 
     int i;
-    for (i = 0; i < msgSize; i++) {
+    for (i = 0; i < msgSize; i++)
+    {
         printf("%02x ", msg[i]);
     }
 
@@ -24,9 +25,10 @@ rawMessageHandler (void* parameter, uint8_t* msg, int msgSize, bool sent)
 
 /* Connection event handler */
 static void
-connectionHandler (void* parameter, CS104_Connection connection, CS104_ConnectionEvent event)
+connectionHandler(void* parameter, CS104_Connection connection, CS104_ConnectionEvent event)
 {
-    switch (event) {
+    switch (event)
+    {
     case CS104_CONNECTION_OPENED:
         printf("Connection established\n");
         break;
@@ -51,51 +53,48 @@ connectionHandler (void* parameter, CS104_Connection connection, CS104_Connectio
  * For CS104 the address parameter has to be ignored
  */
 static bool
-asduReceivedHandler (void* parameter, int address, CS101_ASDU asdu)
+asduReceivedHandler(void* parameter, int address, CS101_ASDU asdu)
 {
-    printf("RECVD ASDU type: %s(%i) elements: %i\n",
-            TypeID_toString(CS101_ASDU_getTypeID(asdu)),
-            CS101_ASDU_getTypeID(asdu),
-            CS101_ASDU_getNumberOfElements(asdu));
+    printf("RECVD ASDU type: %s(%i) elements: %i\n", TypeID_toString(CS101_ASDU_getTypeID(asdu)),
+           CS101_ASDU_getTypeID(asdu), CS101_ASDU_getNumberOfElements(asdu));
 
-    if (CS101_ASDU_getTypeID(asdu) == M_ME_TE_1) {
+    if (CS101_ASDU_getTypeID(asdu) == M_ME_TE_1)
+    {
 
         printf("  measured scaled values with CP56Time2a timestamp:\n");
 
         int i;
 
-        for (i = 0; i < CS101_ASDU_getNumberOfElements(asdu); i++) {
+        for (i = 0; i < CS101_ASDU_getNumberOfElements(asdu); i++)
+        {
 
-            MeasuredValueScaledWithCP56Time2a io =
-                    (MeasuredValueScaledWithCP56Time2a) CS101_ASDU_getElement(asdu, i);
+            MeasuredValueScaledWithCP56Time2a io = (MeasuredValueScaledWithCP56Time2a)CS101_ASDU_getElement(asdu, i);
 
-            printf("    IOA: %i value: %i\n",
-                    InformationObject_getObjectAddress((InformationObject) io),
-                    MeasuredValueScaled_getValue((MeasuredValueScaled) io)
-            );
+            printf("    IOA: %i value: %i\n", InformationObject_getObjectAddress((InformationObject)io),
+                   MeasuredValueScaled_getValue((MeasuredValueScaled)io));
 
             MeasuredValueScaledWithCP56Time2a_destroy(io);
         }
     }
-    else if (CS101_ASDU_getTypeID(asdu) == M_SP_NA_1) {
+    else if (CS101_ASDU_getTypeID(asdu) == M_SP_NA_1)
+    {
         printf("  single point information:\n");
 
         int i;
 
-        for (i = 0; i < CS101_ASDU_getNumberOfElements(asdu); i++) {
+        for (i = 0; i < CS101_ASDU_getNumberOfElements(asdu); i++)
+        {
 
-            SinglePointInformation io =
-                    (SinglePointInformation) CS101_ASDU_getElement(asdu, i);
+            SinglePointInformation io = (SinglePointInformation)CS101_ASDU_getElement(asdu, i);
 
-            printf("    IOA: %i value: %i\n",
-                    InformationObject_getObjectAddress((InformationObject) io),
-                    SinglePointInformation_getValue((SinglePointInformation) io)
-            );
+            printf("    IOA: %i value: %i\n", InformationObject_getObjectAddress((InformationObject)io),
+                   SinglePointInformation_getValue((SinglePointInformation)io));
 
             SinglePointInformation_destroy(io);
         }
     }
-    else if (CS101_ASDU_getTypeID(asdu) == C_TS_TA_1) {
+    else if (CS101_ASDU_getTypeID(asdu) == C_TS_TA_1)
+    {
         printf("  test command with timestamp\n");
     }
 
@@ -136,9 +135,10 @@ main(int argc, char** argv)
         CS104_Connection_setLocalAddress(con, localIp, localPort);
 
     /* uncomment to log messages */
-    //CS104_Connection_setRawMessageHandler(con, rawMessageHandler, NULL);
+    // CS104_Connection_setRawMessageHandler(con, rawMessageHandler, NULL);
 
-    if (CS104_Connection_connect(con)) {
+    if (CS104_Connection_connect(con))
+    {
         printf("Connected!\n");
 
         CS104_Connection_sendStartDT(con);
@@ -186,5 +186,3 @@ main(int argc, char** argv)
     printf("exit\n");
     getchar();
 }
-
-

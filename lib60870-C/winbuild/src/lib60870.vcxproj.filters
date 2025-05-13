@@ -1,74 +1,74 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="C:\code\lib60870\lib60870-C\src\file-service\file_server.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\apl\cpXXtime2a.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\cs101\cs101_asdu.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\cs101\cs101_bcr.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\cs101\cs101_information_objects.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\cs101\cs101_master_connection.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\cs101\cs101_master.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\cs101\cs101_queue.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\cs101\cs101_slave.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\cs104\cs104_connection.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\cs104\cs104_frame.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\cs104\cs104_slave.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\link_layer\buffer_frame.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\link_layer\link_layer.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\link_layer\serial_transceiver_ft_1_2.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\frame.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\lib60870_common.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="C:\code\lib60870\lib60870-C\src\common\linked_list.c">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\common</Filter>
     </ClCompile>
-    <ClCompile Include="C:\code\lib60870\lib60870-C\src\hal\serial\win32\serial_port_win32.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\code\lib60870\lib60870-C\src\hal\socket\win32\socket_win32.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\code\lib60870\lib60870-C\src\hal\thread\win32\thread_win32.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\code\lib60870\lib60870-C\src\hal\time\win32\time.c">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="C:\code\lib60870\lib60870-C\src\file-service\file_server.c">
+      <Filter>Source Files\file-service</Filter>
     </ClCompile>
     <ClCompile Include="C:\code\lib60870\lib60870-C\src\hal\memory\lib_memory.c">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\hal</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\lib60870\lib60870-C\src\hal\time\win32\time.c">
+      <Filter>Source Files\hal</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\lib60870\lib60870-C\src\hal\thread\win32\thread_win32.c">
+      <Filter>Source Files\hal</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\lib60870\lib60870-C\src\hal\socket\win32\socket_win32.c">
+      <Filter>Source Files\hal</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\lib60870\lib60870-C\src\hal\serial\win32\serial_port_win32.c">
+      <Filter>Source Files\hal</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\lib60870_common.c">
+      <Filter>Source Files\iec60870</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\frame.c">
+      <Filter>Source Files\iec60870</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\apl\cpXXtime2a.c">
+      <Filter>Source Files\iec60870</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\cs101\cs101_asdu.c">
+      <Filter>Source Files\iec60870</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\cs101\cs101_bcr.c">
+      <Filter>Source Files\iec60870</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\cs101\cs101_information_objects.c">
+      <Filter>Source Files\iec60870</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\cs101\cs101_master.c">
+      <Filter>Source Files\iec60870</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\cs101\cs101_master_connection.c">
+      <Filter>Source Files\iec60870</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\cs101\cs101_queue.c">
+      <Filter>Source Files\iec60870</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\cs101\cs101_slave.c">
+      <Filter>Source Files\iec60870</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\cs104\cs104_connection.c">
+      <Filter>Source Files\iec60870</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\cs104\cs104_frame.c">
+      <Filter>Source Files\iec60870</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\cs104\cs104_slave.c">
+      <Filter>Source Files\iec60870</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\link_layer\link_layer.c">
+      <Filter>Source Files\iec60870\link_layer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\link_layer\buffer_frame.c">
+      <Filter>Source Files\iec60870\link_layer</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\code\lib60870\lib60870-C\src\iec60870\link_layer\serial_transceiver_ft_1_2.c">
+      <Filter>Source Files\iec60870\link_layer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,5 +83,150 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{A929F1A7-2DE7-3E5C-9988-7070C55A9CBE}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{33a5490b-947a-46d5-84e3-dc26e770bd1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\internal">
+      <UniqueIdentifier>{8af98562-7620-4651-95ca-58d6ca3ca997}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\hal">
+      <UniqueIdentifier>{30b95050-24ed-43dc-be4e-57b7bf248ad5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\api">
+      <UniqueIdentifier>{a0f9a8bf-ff2f-4a14-ac6d-67925a32def9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\common">
+      <UniqueIdentifier>{9deb8768-c7a2-454a-aa80-777d39bba9b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\file-service">
+      <UniqueIdentifier>{ec291100-9af9-4c09-b04d-5f9694f7fcc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\common">
+      <UniqueIdentifier>{54d7a295-3610-42ef-a83f-d0ecc184b978}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\file-service">
+      <UniqueIdentifier>{a790d9f9-e64d-48bb-b222-868b2bcd2af7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\hal">
+      <UniqueIdentifier>{70f5b29b-5f05-4e34-84d5-f7e3ebec3fb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\iec60870">
+      <UniqueIdentifier>{44da64b4-bb62-449d-b884-4e6fa63e30a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\iec60870\link_layer">
+      <UniqueIdentifier>{1667f38d-7924-49ed-a5fa-be44fa23f4a2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\inc\internal\apl_types_internal.h">
+      <Filter>Header Files\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\inc\internal\buffer_frame.h">
+      <Filter>Header Files\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\inc\internal\cs101_asdu_internal.h">
+      <Filter>Header Files\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\inc\internal\cs101_queue.h">
+      <Filter>Header Files\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\inc\internal\cs104_frame.h">
+      <Filter>Header Files\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\inc\internal\frame.h">
+      <Filter>Header Files\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\inc\internal\information_objects_internal.h">
+      <Filter>Header Files\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\inc\internal\lib60870_internal.h">
+      <Filter>Header Files\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\inc\internal\link_layer.h">
+      <Filter>Header Files\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\inc\internal\link_layer_private.h">
+      <Filter>Header Files\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\inc\internal\platform_endian.h">
+      <Filter>Header Files\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\inc\internal\serial_transceiver_ft_1_2.h">
+      <Filter>Header Files\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\inc\api\cs101_information_objects.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\inc\api\cs101_master.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\inc\api\cs101_slave.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\inc\api\cs104_connection.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\inc\api\cs104_slave.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\inc\api\iec60870_common.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\inc\api\iec60870_master.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\inc\api\iec60870_slave.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\inc\api\link_layer_parameters.h">
+      <Filter>Header Files\api</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\hal\tls\mbedtls3\mbedtls_config.h">
+      <Filter>Header Files\hal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\hal\tls\mbedtls\mbedtls_config.h">
+      <Filter>Header Files\hal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\hal\inc\tls_config.h">
+      <Filter>Header Files\hal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\hal\inc\tls_socket.h">
+      <Filter>Header Files\hal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\hal\inc\tls_ciphers.h">
+      <Filter>Header Files\hal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\hal\inc\hal_time.h">
+      <Filter>Header Files\hal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\hal\inc\lib_memory.h">
+      <Filter>Header Files\hal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\hal\inc\platform_endian.h">
+      <Filter>Header Files\hal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\hal\inc\hal_socket.h">
+      <Filter>Header Files\hal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\hal\inc\hal_thread.h">
+      <Filter>Header Files\hal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\hal\inc\hal_base.h">
+      <Filter>Header Files\hal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\hal\inc\hal_serial.h">
+      <Filter>Header Files\hal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\common\inc\linked_list.h">
+      <Filter>Header Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\file-service\cs101_file_service.h">
+      <Filter>Header Files\file-service</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\.gitignore" />
+    <None Include="..\..\..\README.md" />
+    <None Include="..\..\..\user_guide.adoc" />
   </ItemGroup>
 </Project>

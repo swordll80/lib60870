@@ -1,39 +1,59 @@
-= lib60870 - IEC 60870-5-101/104 C Source Code Library User Guide - Version 2.3.4
+﻿= lib60870 - IEC 60870-5-101/104 C Source Code Library User Guide - Version 2.3.4
 Copyright 2020 MZ Automation GmbH
 
 == Introduction
 
-lib60870 is a feature rich and field proven implementation of the IEC 60870-5-101/104 protocol for client (master station) and server (slave or controlled station). The library implements all data types of the IEC 60870-5-101/104 specifications. *lib60870* is implemented in standard C and is compatible with the C99 standard. It is designed to be as easy to use as possible.
+lib60870 is a feature rich and field proven implementation of the IEC 60870-5-101/104 protocol for client (master station) and server (slave or controlled station). 
+The library implements all data types of the IEC 60870-5-101/104 specifications. *lib60870* is implemented in standard C and is compatible with the C99 standard. 
+It is designed to be as easy to use as possible.
+
+lib60870 是一个功能丰富且经过实际验证的 IEC 60870-5-101/104 协议实现，适用于客户端（主站）和服务器（从站或受控站）。
+该库实现了 IEC 60870-5-101/104 规范中的所有数据类型。lib60870 使用标准 C 语言编写，并兼容 C99 标准。它旨在尽可能易于使用。
 
 The client/server API is strictly asynchronous. You send the requests with non-blocking functions and will have to handle the responses and other events in callback functions.
+客户端/服务器 API 是严格异步的。您使用非阻塞函数发送请求，并且必须在回调函数中处理响应和其他事件。
 
-Here is a list of supported features:
+Here is a list of supported features:这里是支持的功能列表：
 
-* CS 101 (IEC 60870-5-101) balanced and unbalanced serial modes
-* CS 104 (IEC 60870-5-104) client and server TCP/IP communication
-* CS 104 supports encrypted and authenticated TLS communication
-* CS 104 uses the CS 101 application layer
-* CS 104 slave: support for redundancy groups
+* CS 101 (IEC 60870-5-101) balanced and unbalanced serial modes  平衡和不平衡串行模式
+* CS 104 (IEC 60870-5-104) client and server TCP/IP communication  客户端和服务器 TCP/IP 通信
+* CS 104 supports encrypted and authenticated TLS communication   支持加密和认证的 TLS 通信。
+* CS 104 uses the CS 101 application layer  ，CS 104 使用 CS 101 应用层。
+* CS 104 slave: support for redundancy groups，CS 104 从站：支持冗余组
 * Master/Client supports sending system commands, process commands, parameter commands, and data messages in reverse direction.
+  主/客户端支持在反向方向发送系统命令、进程命令、参数命令和数据消息。
 * Slave/Server supports sending data messages in monitoring direction and commands in reverse direction
+  从站/服务器支持在监控方向发送数据消息，在反向方向发送命令
 * The list of supported ASDU types can be found in the annex
+  支持的 ASDU 类型列表可以在附录中找到
 * The library supports user defined private ASDU types
+  该库支持用户自定义的私有 ASDU 类型
 * Plugin interface for library extensions
+  库扩展的插件接口
 
 *NOTE:* CS stands for "companion standard" and specifies variants of the communication protocols and services defined in the IEC 60870-5 standard series.
+注意：CS 代表“配套标准”，它规定了 IEC 60870-5 标准系列中定义的通信协议和服务的变体。
 
 The library uses an "object-oriented" programming style. It is based on abstract data types (ADT) and functions
-that operate on these data types. In general the actual implementations of the data types (the data structures that hold the data) is hidden from the API user. In almost all cases it is not required (and also not recommended) that the API user accesses these data structures directly.
+that operate on these data types. In general the actual implementations of the data types (the data structures that hold the data) is hidden from the API user. 
+In almost all cases it is not required (and also not recommended) that the API user accesses these data structures directly.
+该库使用“面向对象”的编程风格。它基于抽象数据类型（ADT）以及对这些数据类型进行操作的函数。通常，数据类型的实际实现（即存储数据的结构）对 API 用户是隐藏的。
+在绝大多数情况下，API 用户直接访问这些数据结构既不是必需的（也不推荐）。
 
-== Application layer messages
+== Application layer messages 应用层消息
 
 This programming style will be explained by the example of the *_CS101_ASDU_* ADT that is a central part of the
-library API. This data type represents an application layer message of the CS101/CS104 protocols. The abbreviation ASDU stands for "Application Service Data Unit". To create a new ASDU object the _CS101_ASDU_create_ function has to be used as a constructor of the object.
+library API. This data type represents an application layer message of the CS101/CS104 protocols. The abbreviation ASDU stands for "Application Service Data Unit". 
+To create a new ASDU object the _CS101_ASDU_create_ function has to be used as a constructor of the object.
+将通过 CS101_ASDU ADT 的示例来解释这种编程风格，它是库 API 的核心部分。
+该数据类型表示 CS101/CS104 协议的应用层消息。ASDU 的缩写为“应用服务数据单元”。
+要创建一个新的 ASDU 对象，必须使用 CS101_ASDU_create 函数作为对象的构造函数。
 
   CS101_ASDU newAsdu = CS101_ASDU_create(alParams, false, CS101_COT_INTERROGATED_BY_STATION,
         0, 1, false, false);
 
 This function has various parameters to reflect the different properties of an ASDU. Here is the signature of the _CS101_ASDU_create_ function:
+该函数具有各种参数来反映 ASDU 的不同属性。以下是 CS101_ASDU_create 函数的签名：
 
 [[app-listing]]
 [source, c]
@@ -46,19 +66,35 @@ CS101_ASDU_create(CS101_AppLayerParameters parameters, bool isSequence, CS101_Ca
 The first parameter if another object of type _CS101_AppLayerParameters_ that represents the application layer parameters that are shared
 between master and slave on agreement. If both side don't have the identical parameters they will not
 be able to understand the ASDUs from the other side.
+第一个参数是另一个类型为 CS101_AppLayerParameters 的对象，该对象表示在主从设备之间协商共享的应用层参数。
+如果双方没有相同的参数，它们将无法理解对方的 ASDU。
 
-The second parameter _isSequence_ indicates that the ASDU contains a sequence of consecutive information objects (if _true_) or one or more independent information objects (if _false_). A sequence of consecutive information objects means that the ASDU only contains a single information object address (IOA). The consecutive information objects then have addresses IOA, IOA + 1, IOA + 2, ...
+The second parameter _isSequence_ indicates that the ASDU contains a sequence of consecutive information objects (if _true_) 
+or one or more independent information objects (if _false_). 
+A sequence of consecutive information objects means that the ASDU only contains a single information object address (IOA). 
+The consecutive information objects then have addresses IOA, IOA + 1, IOA + 2, ...
+第二个参数 isSequence 表示 ASDU 是否包含连续的信息对象序列（如果为 true）或一个或多个独立的信息对象（如果为 false）。
+连续的信息对象序列意味着 ASDU 只包含一个信息对象地址（IOA）。连续的信息对象随后具有地址 IOA、IOA + 1、IOA + 2、…​
 
-The third parameters indicates the cause of transmission (COT). It is to tell the other side the reason for sending the messages. Possible values could be _CS101_COT_PERIODIC_ for periodic messages, _CS101_COT_SPONTANEOUS_ for spontaneous messages.
+The third parameters indicates the cause of transmission (COT). It is to tell the other side the reason for sending the messages. 
+Possible values could be _CS101_COT_PERIODIC_ for periodic messages, _CS101_COT_SPONTANEOUS_ for spontaneous messages.
+第三个参数表示传输原因（COT）。它用于告知对方发送消息的原因。可能的值可以是 CS101_COT_PERIODIC 表示周期性消息，CS101_COT_SPONTANEOUS 表示自发消息。
 
-The other parameters are _oa_ for the originator address, _ca_ for the common address of the ASDU, _isTest_ to indicate that the message is a test message, and _isNegative_ to indicate that the message is a negative confirmation of another message.
+The other parameters are _oa_ for the originator address, _ca_ for the common address of the ASDU, 
+_isTest_ to indicate that the message is a test message, and _isNegative_ to indicate that the message is a negative confirmation of another message.
+其他参数包括：oa 为源地址，ca 为 ASDU 的公共地址，isTest 用于指示消息是否为测试消息，以及 isNegative 用于指示消息是否为对另一条消息的否定确认。
 
 With the handle of the new ASDU object (in our case _newAsdu_) we can call one of the various functions to
-get or set data of the ASDU. For example you can get or set the test flag values with the _CS101_ASDU_isTest_ or _CS101_ASDU_setTest_ functions. The first parameter of these functions is always the handle of the ASDU object.
+get or set data of the ASDU. For example you can get or set the test flag values with the _CS101_ASDU_isTest_ or _CS101_ASDU_setTest_ functions. 
+The first parameter of these functions is always the handle of the ASDU object.
+使用新 ASDU 对象的句柄（在我们的例子中是新 asdu），我们可以调用各种函数来获取或设置 ASDU 的数据。
+例如，您可以使用 CS101_ASDU_isTest 或 CS101_ASDU_setTest 函数来获取或设置测试标志值。这些函数的第一个参数始终是 ASDU 对象的句柄。
 
   bool isTest = CS101_ASDU_isTest(newAsdu);
 
-An important function to create usable ASDU objects is the _CS101_ASDU_addInformationObject_ functions. With this function you can add information object instances to the ASDU.
+An important function to create usable ASDU objects is the _CS101_ASDU_addInformationObject_ functions. 
+With this function you can add information object instances to the ASDU.
+创建可用 ASDU 对象的一个重要函数是 CS101_ASDU_addInformationObject 函数。使用此函数，您可以向 ASDU 添加信息对象实例。
 
 [[app-listing]]
 [source, c]
@@ -69,64 +105,88 @@ InformationObject io = (InformationObject) MeasuredValueScaled_create(NULL, 100,
 CS101_ASDU_addInformationObject(newAsdu, io);
 ----
 
-This function can be called multiple times to add more information objects to the ASDU object. It has a boolean return values that indicates if the information object has been added successfully (return value _true_). Adding an information object can fail when the ASDU payload is already full. In this case the function will return _false_.
+This function can be called multiple times to add more information objects to the ASDU object. 
+It has a boolean return values that indicates if the information object has been added successfully (return value _true_). 
+Adding an information object can fail when the ASDU payload is already full. In this case the function will return _false_.
+该函数可以被多次调用以向 ASDU 对象添加更多信息对象。它返回一个布尔值，指示信息对象是否已成功添加（返回值 true）。
+当 ASDU 有效载荷已满时，添加信息对象可能会失败。在这种情况下，函数将返回 false。
 
 Finally, when the application created an ASDU object and it is no longer needed it has to be released with
 with the _CS101_ASDU_destroy_ function.
+最后，当应用程序创建了一个 ASDU 对象并且不再需要它时，必须使用 CS101_ASDU_destroy 函数来释放它。
 
   CS101_ASDU_destroy(newAsdu);
 
-== Master (client) side programming
+== Master (client) side programming 主机（客户端）端编程
 
 For master side programming the following abstract data types and APIs can be used:
+对于主站编程，可以使用以下抽象数据类型和 API：
 
 * *CS101_Master* for CS 101 compliant _balanced mode_ and _unbalanced mode_ serial connections.
+   CS101_Master 用于 CS 101 兼容的平衡模式和不平衡模式串行连接。
 * *CS104_Connection* for a CS 104 compliant TCP/IP connection.
+   CS104 兼容的 TCP/IP 连接。
 
 
-=== Create a connection to a CS 104 server
+=== Create a connection to a CS 104 server 创建到 CS 104 服务器的连接
 
-Since an IEC 60870-5-104 connection is based on a TCP client/server connection the connection will be established by the client(master). The server(slave or outstation) is usually passively waiting for connections.
+Since an IEC 60870-5-104 connection is based on a TCP client/server connection the connection will be established by the client(master). 
+The server(slave or outstation) is usually passively waiting for connections.
+由于 IEC 60870-5-104 连接基于 TCP 客户端/服务器连接，因此连接将由客户端（主站）建立。服务器（从站或子站）通常被动等待连接。
 
 A new connection is simple created by calling a the _CS104_Connection_create_ function of the CS104_Connection type:
+通过调用 CS104_Connection 类型中的 CS104_Connection_create 函数，可以简单地创建一个新的连接。
 
   CS104_Connection con = CS104_Connection_create("127.0.0.1", 2404);
 
-This creates a new CS104_Connection object that is ready to connect to the server. The parameters are the hostname or IP address of the server and the TCP/IP port (usually 2404). For the port parameter you can also
-set -1 to use the default port.
+This creates a new CS104_Connection object that is ready to connect to the server. 
+The parameters are the hostname or IP address of the server and the TCP/IP port (usually 2404). 
+For the port parameter you can also set -1 to use the default port.
+这会创建一个新的 CS104_Connection 对象，该对象已准备好连接到服务器。
+参数是服务器的主机名或 IP 地址和 TCP/IP 端口（通常是 2404）。对于端口参数，您也可以设置为 -1 以使用默认端口。
 
 After the connection object is created you can now simply call the _CS104_Connection_connect_ function to connect to the server:
+创建连接对象后，现在可以简单地调用 CS104_Connection_connect 函数连接到服务器：
 
   CS104_Connection_connect(con);
 
 The parameter _con_ is the reference to the connection object created above.
+参数 con 是上面创建的连接对象的引用。
 
 When the connection has been established correctly you can use the connection object to send commands and receive data.
+当连接正确建立后，您可以使用连接对象来发送命令和接收数据。
 
 When you finished using the connection object you have to call
+当您使用完连接对象后，必须调用
 
   CS104_Connection_destroy(con);
 
 To release all resources allocated by the object. After using the _destroy_ function you cannot use any
 functions with the _con_ reference!
+释放对象分配的所有资源。使用销毁函数后，您不能使用任何带有 con 引用的函数！
 
-=== Preparing a CS 101 connection to one or more slaves
+=== Preparing a CS 101 connection to one or more slaves 准备与一个或多个从设备建立 CS 101 连接
 
 CS 101 provides two link layer modes for master/slave connections.
+CS 101 为主站/从站连接提供了两种链路层模式。
 
 *Balanced mode* supports communication between a single master and a single slave using a
 dedicated serial line. This mode is "balanced" in the sense that both ends can spontaneously
 send messages at any time.
+平衡模式支持通过专用串行线路在单个主设备和单个从设备之间进行通信。这种模式被称为“平衡”模式，因为两端都可以随时自发地发送消息。
 
 *Unbalanced mode* supports communication between a single master and multiple slaves on a
 serial bus. Each slave is addressed by its unique link layer address. Slaves are not allowed
 to send messages spontaneously. They only respond following a request from the master.
 The master can address multiple slaves at once by using a broadcast address.
+非平衡模式支持在串行总线上进行单个主站与多个从站之间的通信。每个从站都有其唯一的链路层地址。
+从站不允许自发地发送消息。它们只有在主站请求后才响应。主站可以通过使用广播地址一次寻址多个从站。
 
-==== Configuring the serial port
+==== Configuring the serial port 配置串口
 
 For both modes first the serial port has to be configured and initialized. The following
 code shows an example how to prepare the serial port for usage with the library:
+对于这两种模式，首先需要配置和初始化串口。以下代码展示了如何使用库准备串口：
 
 [[app-listing]]
 [source, c]
@@ -134,12 +194,16 @@ code shows an example how to prepare the serial port for usage with the library:
   SerialPort port = SerialPort_create("/dev/ttsS0", 9600, 8, 'E', 1);
 ----
 
-==== Create and use a new unbalanced master instances
+==== Create and use a new unbalanced master instances 创建和使用新的非平衡主实例
 
 For balanced and unbalanced communication modes the *CS101_Master* type has to be used.
+对于平衡和非平衡通信模式，必须使用 CS101_Master 类型。
 
 The following code creates a new unbalanced master instance using the serial port
-defined above. The _CS101_Master_setASDUReceivedHandler_ function provides a callback handler for received ASDUs. The _CS101_Master_addSlave_ function will create a new slave specific state machine to handle all communication with the slave with link layer address 1.
+defined above. The _CS101_Master_setASDUReceivedHandler_ function provides a callback handler for received ASDUs. 
+The _CS101_Master_addSlave_ function will create a new slave specific state machine to handle all communication with the slave with link layer address 1.
+以下代码使用上面定义的串口创建一个新的非平衡主实例。CS101_Master_setASDUReceivedHandler 函数提供接收 ASDU 的回调处理程序。
+CS101_Master_addSlave 函数将创建一个新的特定于从机的状态机，以处理与链路层地址为 1 的从机的所有通信。
 
 [[app-listing]]
 [source, c]
@@ -151,10 +215,13 @@ CS101_Master_setASDUReceivedHandler(master, asduReceivedHandler, NULL);
 CS101_Master_addSlave(master, 1);
 ----
 
-The link layer parameters and application layer parameters are optional parameters. If not set default instances of the parameter objects are created and used. The
+The link layer parameters and application layer parameters are optional parameters. 
+If not set default instances of the parameter objects are created and used. The
 parameters can also be modified later.
+链路层参数和应用层参数是可选参数。如果未设置，将创建并使用参数对象的默认实例。这些参数也可以稍后修改。
 
 Before sending any command or other request to a specific slave the slave address has to be set with the _CS101_Master_useSlaveAddress_ function.
+在向特定从站发送任何命令或其他请求之前，必须使用 CS101_Master_useSlaveAddress 函数设置从站地址。
 
 [[app-listing]]
 [source, c]
@@ -163,10 +230,12 @@ CS101_Master_useSlaveAddress(master, 1);
 CS101_Master_sendProcessCommand(master, CS101_COT_ACTIVATION, 1, sc);
 ----
 
-==== Balanced master
+==== Balanced master 平衡主站
 
-The balanced master is created the same way. Just the link layer mode parameter is different. The _CS101_Master_useSlaveAddress_ is used to set the slave address. In
+The balanced master is created the same way. Just the link layer mode parameter is different. 
+The _CS101_Master_useSlaveAddress_ is used to set the slave address. In
 the balanced master case it has only to be set one time, as there exists only
+平衡主站是同样创建的。只是链路层模式参数不同。使用 CS101_Master_useSlaveAddress 来设置从站地址。在平衡主站的情况下，只需要设置一次，因为只有一个
 
 [[app-listing]]
 [source, c]
@@ -177,31 +246,39 @@ CS101_Master_useSlaveAddress(master, 3);
 CS101_Master_setASDUReceivedHandler(master, asduReceivedHandler, NULL);
 ----
 
-==== Setting the link layer parameters
+==== Setting the link layer parameters 设置链路层参数
 
-Setting the link layer parameters is an optional step. When not explicitly set a default set of parameters will be used for the new master instance. The parameters
-can be given with the constructor _CS101_Master_create_ or modified later.
+Setting the link layer parameters is an optional step. When not explicitly set a default set of parameters will be used for the new master instance. 
+The parameters can be given with the constructor _CS101_Master_create_ or modified later.
+设置链路层参数是一个可选步骤。如果没有明确设置，新主实例将使用一组默认参数。参数可以通过构造函数 CS101_Master_create 提供，也可以稍后修改。
 
 [[app-listing]]
 [source, c]
-.Example: Disable usage of single char ACKs
+.Example: Disable usage of single char ACKs 示例：禁用单个字符 ACK 的使用
 ----
 LinkLayerParameters llParams = CS101_Master_getLinkLayerParameters(master);
 llParams->useSingleCharACK = false;
 ----
 
-=== Sending requests and receiving responses from the slave
+=== Sending requests and receiving responses from the slave 向从站发送请求并接收响应
 
-In general an application is concerned with sending application layer messages (ASDUs) to the slave. The master side API supports generic and specialized functions to send messages to the slave. When sending system commands or process commands it is recommended to use the specialized functions because they help to
+In general an application is concerned with sending application layer messages (ASDUs) to the slave. 
+The master side API supports generic and specialized functions to send messages to the slave. 
+When sending system commands or process commands it is recommended to use the specialized functions because they help to
 create ASDUs that comply to the standards. These specialized functions are explained in the following sections. They exist generally in two variants for CS101 and CS104.
+通常，应用程序关心向从站发送应用层消息（ASDU）。主站 API 支持通用和专用功能来向从站发送消息。
+当发送系统命令或过程命令时，建议使用专用功能，因为它们有助于创建符合标准的 ASDU。
+这些专用功能将在以下部分中解释。它们通常以两种变体存在于 CS101 和 CS104 中。
 
 For the general case it is possible to send arbitrary ASDUs by using the _CS101_Master_sendASDU_ or _CS104_Connection_sendASDU_ functions.
+在一般情况下，可以使用 CS101_Master_sendASDU 或 CS104_Connection_sendASDU 函数发送任意 ASDU。
 
 For receiving application layer messages the application has to implement the _CS101_ASDUReceivedHandler_ callback.
+接收应用层消息时，应用需要实现 CS101_ASDUReceivedHandler 回调。
 
 [[app-listing]]
 [source, c]
-.Example for processing received ASDUs in the CS101_ASDUReceivedHandler
+.Example for processing received ASDUs in the CS101_ASDUReceivedHandler 处理 CS101_ASDUReceivedHandler 中接收到的 ASDU 的示例
 ----
 static bool
 asduReceivedHandler (void* parameter, int address, CS101_ASDU asdu)
@@ -254,13 +331,18 @@ asduReceivedHandler (void* parameter, int address, CS101_ASDU asdu)
 ----
 
 This callback handler has to be installed with the _CS104_Connection_setASDUReceivedHandler_ or _CS101_Master_setASDUReceivedHandler_ function.
+这个回调处理程序必须使用 CS104_Connection_setASDUReceivedHandler 或 CS101_Master_setASDUReceivedHandler 函数进行安装。
 
   CS101_Master_setASDUReceivedHandler(master, asduReceivedHandler, NULL);
 
-All callback handler have a generic reference parameter with the name "parameter" in its function signatures. This parameter can be used by the user to provide application specific context information to the callback
-handler. This parameter will be set with the install function of the callback handler (like _CS101_Master_setASDUReceivedHandler_ in the example above). If not used this parameter can be set to _NULL_.
+All callback handler have a generic reference parameter with the name "parameter" in its function signatures. 
+This parameter can be used by the user to provide application specific context information to the callback
+handler. This parameter will be set with the install function of the callback handler (like _CS101_Master_setASDUReceivedHandler_ in the example above).
+If not used this parameter can be set to _NULL_.
+所有回调处理函数都有一个名为"parameter"的通用引用参数在其函数签名中。该参数可以被用户用来向回调处理函数提供特定于应用程序的上下文信息。
+该参数将由回调处理函数的安装函数设置（例如上面的 CS101_Master_setASDUReceivedHandler 示例）。如果未使用此参数，可以将其设置为 NULL。
 
-.Master side callback handler types
+.Master side callback handler types  主机端回调处理函数类型
 [width="90%",cols="n,10,1,1",frame="topbot",options="header"]
 |==========================
 | callback type | event | CS 101 | CS 104
@@ -270,42 +352,63 @@ handler. This parameter will be set with the install function of the callback ha
 |==========================
 
 
-=== Sending a read request
+=== Sending a read request 发送读取请求
 
-The IEC 60870 documents don't recommend this service (cyclical data requests or polling) but it is an easy way to get the required data. You just need to know the common address (CA) and the information object address (IOA) to create the proper request.
+The IEC 60870 documents don't recommend this service (cyclical data requests or polling) but it is an easy way to get the required data. 
+You just need to know the common address (CA) and the information object address (IOA) to create the proper request.
+IEC 60870 文档不推荐此服务（周期性数据请求或轮询），但它是一种获取所需数据的简便方法。
+您只需要知道公共地址（CA）和信息对象地址（IOA）即可创建正确的请求。
 
   CS104_Connection_sendReadCommand(con, 1 /* CA */, 2001 /* IOA */);
 
 This call is non-blocking. You have to evaluate the response in the _CS101_ASDUReceivedHandler_ callback function.
+这个调用是非阻塞的。您需要在 CS101_ASDUReceivedHandler 回调函数中评估响应。
 
-Typically it is expected that the server response contains only the basic data type without timestamps (that is using the message types for a specific data type that does not contain the timestamps)!
+Typically it is expected that the server response contains only the basic data type without timestamps 
+(that is using the message types for a specific data type that does not contain the timestamps)!
+通常期望服务器响应只包含基本数据类型，不包含时间戳（即使用不包含时间戳的特定数据类型的消息类型）！
 
-=== Interrogation
+=== Interrogation 查询
 
-It is also possible to request a group of data items from a slave with a single request. On the master (client) side you can simply use the _sendInterrogationCommand_ function of the Connection object:
+It is also possible to request a group of data items from a slave with a single request. 
+On the master (client) side you can simply use the _sendInterrogationCommand_ function of the Connection object:
+还可以通过单个请求从从设备请求一组数据项。在主设备（客户端）侧，您只需使用连接对象的 sendInterrogationCommand 函数：
 
   CS104_Connection_sendInterrogationCommand (con, CS101_COT_ACTIVATION, /* CA */ 1, /* QOI */ 20);
 
 The client/master side method signature looks like this:
+客户端/主站侧的方法签名如下：
 
   bool
   CS104_Connection_sendInterrogationCommand(CS104_Connection self, CS101_CauseOfTransmission cot, int ca, QualifierOfInterrogation qoi)
 
-The parameter ca is the common address (CA) as in the other methods. The parameter qoi is the "Qualifier of interrogation" (QOI). The value "20" (indicating "station interrogation") for the QOI indicates that it is an request for all data points. Other values for QOI will indicate that the client (master) only wants to receive data from a specific interrogation group.
+The parameter ca is the common address (CA) as in the other methods. The parameter qoi is the "Qualifier of interrogation" (QOI). 
+The value "20" (indicating "station interrogation") for the QOI indicates that it is an request for all data points. 
+Other values for QOI will indicate that the client (master) only wants to receive data from a specific interrogation group.
+参数 ca 是通用地址（CA），与其他方法中的含义相同。参数 qoi 是“查询限定符”（QOI）。
+QOI 的值“20”（表示“站内查询”）指示这是一个请求所有数据点的请求。QOI 的其他值将指示客户端（主站）只想从特定的查询组接收数据。
 
-=== Clock synchronization procedure
+=== Clock synchronization procedure 时钟同步程序
 
-For the clock synchronization procedure the controlling station (master) sends a C_CS_NA_1 ACT message to the controlled station (slave) containing the current valid time information as a CP56Time2a typed time value. The controlled station has to update its internal time and respond with a C_CS_NA_1 ACT_CON message after all queued time-tagged PDUs have been sent.
+For the clock synchronization procedure the controlling station (master) sends a C_CS_NA_1 ACT message 
+to the controlled station (slave) containing the current valid time information as a CP56Time2a typed time value.
+The controlled station has to update its internal time and respond with a C_CS_NA_1 ACT_CON message after all queued time-tagged PDUs have been sent.
+对于时钟同步程序，控制站（主站）向受控站（从站）发送一个 C_CS_NA_1 ACT 消息，其中包含当前有效时间信息，作为 CP56Time2a 类型的时间值。
+受控站必须在发送所有排队的时间标记 PDU 后更新其内部时间，并回复一个 C_CS_NA_1 ACT_CON 消息。
 
-Clock synchronization of the controlled station can be done with the _CS104_Connection_sendClockSyncCommand_ function for CS104 or the _CS101_Master_sendClockSyncCommand_ for CS101.
+Clock synchronization of the controlled station can be done with the _CS104_Connection_sendClockSyncCommand_ function 
+for CS104 or the _CS101_Master_sendClockSyncCommand_ for CS101.
+受控站的时钟同步可以通过 CS104 的 CS104_Connection_sendClockSyncCommand 函数或 CS101 的 CS101_Master_sendClockSyncCommand 函数完成。
 
 First a CP56Time2a timestamp has to be created and initialized:
+首先必须创建并初始化一个 CP56Time2a 时间戳：
 
   struct sCP56Time2a currentTime;
   CP56Time2a_createFromMsTimestamp(&currentTime, Hal_getTimeInMs());
   CS104_Connection_sendClockSyncCommand(con, 1 /* CA */, &currentTime);
 
 Or when using dynamic memory allocation and CS 101:
+或者在使用动态内存分配和 CS 101 时：
 
   CP56Time2a currentTime = CP56Time2a_createFromMsTimestamp(NULL, Hal_getTimeInMs());
   CS101_Master_sendClockSyncCommand(master, 1 /* CA */, currentTime);
@@ -313,27 +416,34 @@ Or when using dynamic memory allocation and CS 101:
 *NOTE*: The _Hal_getTimeInMs_ function is platform independent way to get the current time
 as milliseconds since 00:00:00 1. January 1970 UTC. You can also use your own function to get
 the time.
+注意：Hal_getTimeInMs 函数是一种平台无关的方式来获取当前时间，以自 1970 年 1 月 1 日 00:00:00 UTC 以来的毫秒数表示。你也可以使用自己的函数来获取时间。
 
-=== Command procedures
+=== Command procedures  命令程序
 
 Commands are used to set set points, parameters or trigger some actions at the controlled station.
+命令用于在受控站设置设定点、参数或触发某些操作。
 
 The following command types (data types are available for commands):
+以下命令类型（命令的数据类型可用）：
 
-* C_SC (single command) - to control binary data (switch...)
-* C_DC (double command) - to control binary data with transition state (moving switch...)
-* S_RC (step position command) - to control a step position
+* C_SC (single command) - to control binary data (switch...) 用于控制二进制数据（开关……​）
+* C_DC (double command) - to control binary data with transition state (moving switch...)用于控制具有转换状态的二进制数据（移动开关……​）
+* S_RC (step position command) - to control a step position（步进位置指令）- 用于控制步进位置
 * S_SE (setpoint command) - to control a set point (scaled value, normalized value, floating point values) - may also be used to set parameters, alarm limits etc.
+  S_SE（设定点指令）- 用于控制设定点（缩放值、归一化值、浮点值）- 也可能用于设置参数、报警限等
 
 These command types are also available in a version with a time tag (CP56TIme2a).
+这些命令类型也以带时间标记的版本（CP56TIme2a）提供。
 
 There are two different command procedures available. The *direct operate* command procedure and the *select before operate* command procedure.
+有两种不同的命令程序可用。直接操作命令程序和选择操作命令程序。
 
 To send a command for the direct operate command procedure you have to send an ACTIVATION APDU to the controlled station.
+要发送直接操作命令程序的命令，您必须向受控站发送一个激活 APDU。
 
 [[app-listing]]
 [source, c]
-.Send a process command to the controlled station
+.Send a process command to the controlled station 向受控站发送过程命令
 ----
 
   InformationObject sc = (InformationObject)
@@ -345,6 +455,7 @@ To send a command for the direct operate command procedure you have to send an A
 ----
 
 The constructor of SingleCommand data type has the following signature:
+SingleCommand 数据类型的构造函数具有以下签名：
 
 [[app-listing]]
 [source, c]
@@ -354,59 +465,79 @@ The constructor of SingleCommand data type has the following signature:
 ----
 
 In order to send a direct operate command the _selectCommand_ parameter should be false. The qualifier (_qu_) should in general be set to 0.
+为了发送直接操作命令，selectCommand 参数应为 false。限定符（qu）通常应设置为 0。
 
-For *select before operate* the command has to be sent with the _selectCommand_ parameter set to true to select the control output. In the next step an additional command with _selectCommand_ set to false has to be sent to cause the actual command execution.
+For *select before operate* the command has to be sent with the _selectCommand_ parameter set to true to select the control output. 
+In the next step an additional command with _selectCommand_ set to false has to be sent to cause the actual command execution.
+在操作前选择控制输出时，必须将 selectCommand 参数设置为 true 以选择控制输出。在下一步中，必须发送一个 selectCommand 设置为 false 的附加命令以执行实际命令。
 
-If the command has been successful the outstation will answer with an ACT_CON response message with the _negative flag_ not set. In case the outstation cannot execute the command it will also answer with an ACT_CON response but with the _negative flag_ set. You can check if this flag is set with the _CS101_ASDU_isNegative_ function used with the received _CS101_ASDU_ instance.
+If the command has been successful the outstation will answer with an ACT_CON response message with the _negative flag_ not set.
+In case the outstation cannot execute the command it will also answer with an ACT_CON response but with the _negative flag_ set. 
+You can check if this flag is set with the _CS101_ASDU_isNegative_ function used with the received _CS101_ASDU_ instance.
+如果命令成功，远程终端将以未设置负标志的 ACT_CON 响应消息进行响应。如果远程终端无法执行命令，它也会以设置负标志的 ACT_CON 响应消息进行响应。
+您可以使用 CS101_ASDU_isNegative 函数检查该标志是否设置，该函数用于接收到的 CS101_ASDU 实例。
 
 For a CS 104 master a command can be sent the same way by using the _CS104_Master_sendProcessCommandEx_ function.
+对于 CS 104 主站，可以通过使用 CS104_Master_sendProcessCommandEx 函数以相同的方式发送命令。
 
 
-== Slave (server) side programming
+== Slave (server) side programming 从站（服务器）侧编程
 
-=== CS104 (TCP/IP) Server configuration and setup
+=== CS104 (TCP/IP) Server configuration and setup //CS104（TCP/IP）服务器配置和设置
 
 To configure and setup an IEC 60870-5-104 server/slave an instance of the _CS104_Slave_ data type is required.
+要配置和设置 IEC 60870-5-104 服务器/从机，需要一个 CS104_Slave 数据类型的实例。
 
   CS104_Slave slave = CS104_Slave_create(100, 100);
 
 After the server instance is created it can be configured
+服务器实例创建后，可以进行配置
 
-=== CS104 Server mode
+=== CS104 Server mode 服务器模式
 
 The server provides three different modes concerning the support of redundant connections and event queue handling:
+服务器提供了三种不同的模式，涉及冗余连接的支持和事件队列处理：
 
 The default mode (_CS104_MODE_SINGLE_REDUNDANCY_GROUP_) allows only a *single active client connection*. An active client connection is a connection
 where ASDUs (application data units) are sent. All other connections are only standby connections that don't send application layer data.
 There is a single queue for events. Events are also stored when no client is connected or when no connection is active.
-
+默认模式（CS104_MODE_SINGLE_REDUNDANCY_GROUP）仅允许一个活动的客户端连接。活动的客户端连接是指发送应用数据单元（ASDU）的连接。
+所有其他连接仅是备用连接，不会发送应用层数据。有一个单一的事件队列。当没有客户端连接或没有活动连接时，事件也会被存储。
 
 The second mode (_CS104_MODE_CONNECTION_IS_REDUNDANCY_GROUP_) allows *multiple active client connections*. Every connection has its own event queue.
 The event queue will be deleted when the client connection is closed. This mode can be used when more than one client has to access the
 application data. This mode is easy to use. But the drawback of this mode is that events are lost when no client is connected.
+第二种模式（CS104_MODE_CONNECTION_IS_REDUNDANCY_GROUP）允许多个活动的客户端连接。每个连接都有自己的事件队列。
+当客户端连接关闭时，事件队列将被删除。当多个客户端需要访问应用数据时，可以使用此模式。此模式易于使用。但此模式的缺点是在没有客户端连接时，事件会丢失。
 
 The third mode (_CS104_MODE_MULTIPLE_REDUNDANCY_GROUPS_) allows *multiple active client connections* while preserving events when no client is
 connected. In this mode clients can be assigned to specific redundancy groups. The assignment is based on the IP address of the client.
 A redundancy group can have multiple simultaneous connections but only one of these connections can be active. The number of activated
 connections is restricted by the number of redundancy groups. Each redundancy group has a dedicated event queue.
+第三种模式（CS104_MODE_MULTIPLE_REDUNDANCY_GROUPS）允许多个活跃客户端连接，同时在没有客户端连接时保留事件。在这种模式下，客户端可以被分配到特定的冗余组。
+分配基于客户端的 IP 地址。一个冗余组可以有多个同时连接，但其中只有一个可以是活跃的。激活连接的数量受限于冗余组的数量。每个冗余组都有一个专用的事件队列。
 
 
 The server mode can be set with the _CS104_Slave_setServerMode_ function:
+服务器模式可以通过 CS104_Slave_setServerMode 函数设置：
 
   CS104_Slave_setServerMode(slave, CS104_MODE_MULTIPLE_REDUNDANCY_GROUPS);
 
-=== CS104: Defining multiple redundancy groups
+=== CS104: Defining multiple redundancy groups 定义多个冗余组
 
 Redundancy groups only have to be created explicitly when using the servermode _CS104_MODE_MULTIPLE_REDUNDANCY_GROUPS_. You can assign multiple
 IP addresses to a redundancy group. Incoming connections from one of these IP addresses will then automatically be assigned to this specific
 redundancy group.
+当使用服务器模式 CS104_MODE_MULTIPLE_REDUNDANCY_GROUPS 时，冗余组只需要明确创建。
+您可以将多个 IP 地址分配给一个冗余组。来自这些 IP 地址之一的传入连接将自动分配到该特定的冗余组。
 
 When a redundancy group has no assigned IP address it works as a "catch all" group. This means that all incoming connections that
 are not assigned to one of the other groups will end up in this group.
+当冗余组没有分配的 IP 地址时，它将作为一个“捕获所有”组工作。这意味着所有未分配给其他组的传入连接最终都会进入这个组。
 
 [[app-listing]]
 [source, c]
-.Example how to define multipe redundancy groups
+.Example how to define multipe redundancy groups 示例如何定义多个冗余组
 ----
 CS104_Slave_setServerMode(slave, CS104_MODE_MULTIPLE_REDUNDANCY_GROUPS);
 
@@ -424,20 +555,24 @@ CS104_Slave_addRedundancyGroup(slave, redGroup2);
 CS104_Slave_addRedundancyGroup(slave, redGroup3);
 ----
 
-=== CS101 (serial) slave configuration and setup
+=== CS101 (serial) slave configuration and setup  (串行) 从设备配置和设置
 
-Similar to the master side the CS101 slave side can also be configured for one of the two link layer modes (_balanced_ or _unbalanced_). A CS101 slave is represented by a _CS101_SLave_ object.
+Similar to the master side the CS101 slave side can also be configured for one of the two link layer modes (_balanced_ or _unbalanced_). 
+A CS101 slave is represented by a _CS101_SLave_ object.
+与主站类似，CS101 从站的链路层模式也可以配置为平衡或非平衡两种模式之一。CS101 从站由 CS101_SLave 对象表示。
 
 Before a _CS101_Slave_ object can be created a _SerialPort_ object is required. The _SerialPort_ object
 represents the serial interface and its configuration.
+在创建 CS101_Slave 对象之前，需要一个 SerialPort 对象。SerialPort 对象表示串行接口及其配置。
 
   SerialPort port = SerialPort_create(serialPort, 9600, 8, 'E', 1);
 
 The created _SerialPort_ object is required for the _CS101_Slave_create_ function:
+创建的 SerialPort 对象是 CS101_Slave_create 函数所必需的。
 
   CS101_Slave slave = CS101_Slave_create(port, NULL, NULL, IEC60870_LINK_LAYER_UNBALANCED);
 
-This function has the following signature:
+This function has the following signature: 这个函数具有以下签名：
 
 [[app-listing]]
 [source, c]
@@ -449,35 +584,40 @@ CS101_Slave_create(SerialPort serialPort, LinkLayerParameters llParameters, CS10
 Optionally the link layer parameters and application layer parameters can be specified. If the
 default values should be used these parameters can be skipped (set to _NULL_). The last parameter specifies
 if the _balanced_ or _unbalanced_ mode is used.
+可选地，可以指定链路层参数和应用层参数。如果应使用默认值，则可以跳过这些参数（设置为 NULL）。
+最后一个参数指定是使用平衡模式还是不平衡模式。
 
 For the serial slave it is also required to set a link layer address:
+对于串行从机，也需要设置链路层地址：
 
   CS101_Slave_setLinkLayerAddress(slave, 1);
 
-=== Setting the callback handler functions
+=== Setting the callback handler functions 设置回调处理函数
 
 Before starting or running the server it is recommended to set the callback functions to
 handle slave events. The following callback handler types are available (please the the API
 reference manual for function signature details). Some of them are only available for CS 104 servers and some only for CS101 slaves.
+在启动或运行服务器之前，建议设置用于处理从机事件的回调函数。以下是一些可用的回调处理函数类型（请参阅 API 参考手册了解函数签名详细信息）。
+其中一些仅适用于 CS104 服务器，而另一些仅适用于 CS101 从机。
 
-.Slave side callback handler types
+.Slave side callback handler types 从站侧回调处理程序类型
 [width="90%",cols="n,10,1,1",frame="topbot",options="header"]
 |==========================
 | callback type | event | CS 101 | CS 104
-| CS101_InterrogationHandler | interrogation requests | + | +
-| CS101_CounterInterrogationHandler | counter interrogation requests | + | +
-| CS101_ReadHandler | read requests for single information objects | + | +
-| CS101_ClockSynchronizationHandler | clock synchronization message received | + | +
-| CS101_ResetProcessHandler | reset process request received | + | +
-| CS101_DelayAcquisitionHandler | delay acquisition request received | + | -
-| CS101_ASDUHandler | ASDU received but not handled by one of the other callback handlers | + | +
-| CS101_ResetCUHandler | a link layer message of type reset CU (communication unit) has been received | + | -
-| CS104_ConnectionRequestHandler | a new TCP/IP client tries to connect | - | +
+| CS101_InterrogationHandler | interrogation requests | + | +  查询处理器
+| CS101_CounterInterrogationHandler | counter interrogation requests | + | +  计数查询处理器
+| CS101_ReadHandler | read requests for single information objects | + | + 读取处理器
+| CS101_ClockSynchronizationHandler | clock synchronization message received | + | +  时钟同步消息接收
+| CS101_ResetProcessHandler | reset process request received | + | +  复位过程请求收到
+| CS101_DelayAcquisitionHandler | delay acquisition request received | + | -  延迟采集请求收到
+| CS101_ASDUHandler | ASDU received but not handled by one of the other callback handlers | + | +  已收到 ASDU 但未被其他回调处理器处理
+| CS101_ResetCUHandler | a link layer message of type reset CU (communication unit) has been received | + | -  已收到类型为重置 CU（通信单元）的链路层消息
+| CS104_ConnectionRequestHandler | a new TCP/IP client tries to connect | - | +   CS104 连接请求处理器
 |==========================
 
 [[app-listing]]
 [source, c]
-.Setting some callback functions for the CS101 slave
+.Setting some callback functions for the CS101 slave  为 CS101 从站设置一些回调函数
 ----
 /* set the callback handler for the clock synchronization command */
 CS101_Slave_setClockSyncHandler(slave, clockSyncHandler, NULL);
@@ -492,63 +632,102 @@ CS101_Slave_setASDUHandler(slave, asduHandler, NULL);
 CS101_Slave_setResetCUHandler(slave, resetCUHandler, (void*) slave);
 ----
 
-=== CS104 Starting/Stopping the server
+=== CS104 Starting/Stopping the server  启动/停止服务器
 
 After the server is configured it can be started with the _CS104_Slave_start_ function. This function
 starts a new background thread that is listening for incoming client connections.
+服务器配置完成后，可以使用 CS104_Slave_start 函数启动。该函数启动一个新的后台线程，用于监听传入的客户端连接。
 
   CS104_Slave_start(slave);
 
 To deactivate the IEC 60870-5-104 service the server can be stopped with the _CS104_Slave_stop_ function.
+要停用 IEC 60870-5-104 服务，可以使用 CS104_Slave_stop 函数停止服务器。
 
   CS104_Slave_stop(slave);
 
-=== Spontaneous or periodic transmission of messages
+=== Spontaneous or periodic transmission of messages 自发或周期性传输消息
 
-For spontaneous or periodic message transmission on the server/slave side the API user has to allocate a _CS101_ASDU_ object that represents a single ASDU, add Information Objects to the ASDU, and finally put the ASDU into the transmission queue. The transmission queue is a FIFO (first in first out) list. If the queue is full the oldest message will be deleted and replaced by the newly added message. Messages will only be sent if the there is an active client connection or working link layer connection. Otherwise the messages will remain in the queue until a connection is activated.
+For spontaneous or periodic message transmission on the server/slave side the API user 
+has to allocate a _CS101_ASDU_ object that represents a single ASDU, add Information Objects to the ASDU, 
+and finally put the ASDU into the transmission queue. The transmission queue is a FIFO (first in first out) list. 
+If the queue is full the oldest message will be deleted and replaced by the newly added message. 
+Messages will only be sent if the there is an active client connection or working link layer connection.
+Otherwise the messages will remain in the queue until a connection is activated.
+对于服务器/从站侧的自发或周期性消息传输，API 用户必须分配一个 CS101_ASDU 对象来表示单个 ASDU，
+向 ASDU 添加信息对象，并将 ASDU 放入传输队列。传输队列是一个先进先出（FIFO）列表。
+如果队列已满，最旧的消息将被删除并由新添加的消息替换。只有当存在活动的客户端连接或工作链路层连接时，消息才会被发送。
+否则，消息将保持在队列中，直到连接被激活。
 
-*CS 104:* In the CS 104 slave the queue size is determined by the *maxLowPrioQueueSize* parameter of the *CS104_Slave_create* function. If the _maxLowPrioQueueSize_ parameter is set to zero the queue will always have the size defined with by _CONFIG_SLAVE_MESSAGE_QUEUE_SIZE_. The second parameter *maxHighPrioQueueSize* determines the size of the high priority data queue. Messages that are put into this queue bypass the messages of the low priority queue. The high priority queue is used for request responses in library callback handlers.
+*CS 104:* In the CS 104 slave the queue size is determined by the *maxLowPrioQueueSize* parameter of the *CS104_Slave_create* function. 
+If the _maxLowPrioQueueSize_ parameter is set to zero the queue will always have the size defined with by _CONFIG_SLAVE_MESSAGE_QUEUE_SIZE_. 
+The second parameter *maxHighPrioQueueSize* determines the size of the high priority data queue. 
+Messages that are put into this queue bypass the messages of the low priority queue. 
+The high priority queue is used for request responses in library callback handlers.
+CS 104：在 CS 104 从站中，队列大小由 CS104_Slave_create 函数的 maxLowPrioQueueSize 参数确定。
+如果将 maxLowPrioQueueSize 参数设置为 0，队列将始终具有由 CONFIG_SLAVE_MESSAGE_QUEUE_SIZE 定义的大小。
+第二个参数 maxHighPrioQueueSize 确定高优先级数据队列的大小。放入此队列的消息会绕过低优先级队列中的消息。
+高优先级队列用于库回调处理程序中的请求响应。
 
 The following steps have to be done to send spontaneous or periodic messages:
+发送自发或周期性消息需要执行以下步骤：
 
 1. Step: Create a new _CS101_ASDU_ instance (use _CS101_COT_PERIODIC_ for periodic data and _CS101_COT_SPONTANEOUS_ for spontaneous data)
+   步骤：创建一个新的 CS101_ASDU 实例（使用 CS101_COT_PERIODIC 表示周期数据，使用 CS101_COT_SPONTANEOUS 表示非周期数据）
 
   CS101_ASDU newAsdu = CS101_ASDU_create(alParameters, false, CS101_COT_PERIODIC, 0, 1, false, false);
 
 2. Step: Create a new information object instance containing the data to send
+   步骤：创建一个新的信息对象实例，其中包含要发送的数据
 
   InformationObject io = (InformationObject) MeasuredValueScaled_create(NULL, 110, scaledValue, IEC60870_QUALITY_GOOD);
 
 3. Step: Add the new information object to the ASDU
+   步骤：将新的信息对象添加到 ASDU
 
   CS101_ASDU_addInformationObject(newAsdu, io);
 
 4. Step: Release the information object memory
+   步骤：释放信息对象内存
 
   InformationObject_destroy(io);
 
 5. Step: Put the ASDU into the class 2 data queue for transmission
+   步骤：将 ASDU 放入类 2 数据队列以进行传输
 
   CS101_Slave_enqueueUserDataClass2(slave, newAsdu);
 
-6. Step: Release the ASDU memory
+6. Step: Release the ASDU memory 
+   步骤：释放 ASDU 内存
 
   CS101_ASDU_destroy(newAsdu);
 
 *NOTE:* For _CS 104_ you have to use the _CS104_Slave_enqueueASDU_ function in step 5:
+ 注意：对于 CS 104，在步骤 5 中您需要使用 CS104_Slave_enqueueASDU 函数：
 
   CS104_Slave_enqueueASDU(slave, newAsdu);
 
 
-=== Handling of interrogation requests
+=== Handling of interrogation requests 处理查询请求
 
-On the server side you should use the InterrogationHandler callback function to handle the Interrogation request. Depending on the QOI (_Qualifier of interrogation_) value you can return different information objects. For a simple system it is enough to only handle station interrogation requests (QOI = 20). The QOI values 21-36 are used for the interrogation groups (1-16). It is up to the slave implementer to assign information objects to interrogation groups.
+On the server side you should use the InterrogationHandler callback function to handle the Interrogation request. 
+Depending on the QOI (_Qualifier of interrogation_) value you can return different information objects. 
+For a simple system it is enough to only handle station interrogation requests (QOI = 20). 
+The QOI values 21-36 are used for the interrogation groups (1-16). It is up to the slave implementer to assign information objects to interrogation groups.
+在服务器端，您应该使用 InterrogationHandler 回调函数来处理查询请求。根据 QOI（查询限定符）的值，您可以返回不同的信息对象。
+对于简单的系统，只需处理站查询请求（QOI = 20）即可。QOI 值 21-36 用于查询组（1-16）。查询组的分配由从站实现者决定。
 
-According to the specification the server has to respond the ACTIVATION request from the client with the ACT_CON response followed by ASDUs containing the information objects with _CS101_COT_INTERROGATED_BY_STATION_ for a station interrogation or COT that represent the respective interrogation group (e.g. _CS101_COT_INTERROGATED_BY_GROUP_1_ for interrogation group 1). After sending all information objects the server has to send the initial interrogation command message with COT = _CS101_COT_ACTIVATION_TERMINATION_ to indicate that the transmission of the interrogation data is finished.
+According to the specification the server has to respond the ACTIVATION request from the client 
+with the ACT_CON response followed by ASDUs containing the information objects with _CS101_COT_INTERROGATED_BY_STATION_ 
+for a station interrogation or COT that represent the respective interrogation group (e.g. _CS101_COT_INTERROGATED_BY_GROUP_1_ for interrogation group 1). 
+After sending all information objects the server has to send the initial interrogation command message with COT = _CS101_COT_ACTIVATION_TERMINATION_ 
+to indicate that the transmission of the interrogation data is finished.
+根据规范，服务器必须用 ACT_CON 响应来响应客户端的 ACTIVATION 请求，然后发送包含信息对象的 ASDU，对于站查询使用 CS101_COT_INTERROGATED_BY_STATION，
+对于查询组使用相应的 COT（例如，对于查询组 1 使用 CS101_COT_INTERROGATED_BY_GROUP_1）。
+发送所有信息对象后，服务器必须发送初始查询命令消息，COT = CS101_COT_ACTIVATION_TERMINATION，以指示查询数据的传输已完成。
 
 [[app-listing]]
 [source, c]
-.Example how to implement an interrogation handler
+.Example how to implement an interrogation handler 示例如何实现一个查询处理程序
 ----
 static bool
 interrogationHandler(void* parameter, IMasterConnection connection, CS101_ASDU asdu, uint8_t qoi)
@@ -589,19 +768,31 @@ interrogationHandler(void* parameter, IMasterConnection connection, CS101_ASDU a
 ----
 
 Inside of the interrogation handler the IMasterConnection interface can be used to send the interrogated data
-back to the client/master. The _CS101_ASDU_ and _InformationObject_ instances created inside the interrogation handler are in the responsibility of the user and have to be released with the appropriate functions (_CS101_ASDU_destroy_ and _InformationObject_destroy_) when they have been allocated dynamically before.
+back to the client/master. The _CS101_ASDU_ and _InformationObject_ instances created inside the interrogation handler 
+are in the responsibility of the user and have to be released with the appropriate functions (_CS101_ASDU_destroy_ and _InformationObject_destroy_) 
+when they have been allocated dynamically before.
+在查询处理程序中，可以使用 IMasterConnection 接口将查询的数据发送回客户端/主站。
+在查询处理程序中创建的 CS101_ASDU 和信息对象实例由用户负责，在之前动态分配后，必须使用适当的功能（CS101_ASDU_destroy 和 InformationObject_destroy）释放。
 
-=== Handling of read commands (C_RD_NA_1) ===
+=== Handling of read commands (C_RD_NA_1) === 处理读命令 (C_RD_NA_1)
 
 The read command C_RD_NA_1(102) can be used by the client/master to read the value of a particular data point in monitoring direction.
+客户端/主站可以使用读命令 C_RD_NA_1(102)来读取监控方向中特定数据点的值。
 
-The most convenient way to handle read commands at the server/slave side is to implement the callback function type _CS101_ReadHandler_. The read handler can be installed by the _CS104_Slave_setReadHandler_ or _CS101_Slave_setReadHandler_ functions for a CS 104 server or CS 101 slave.
+The most convenient way to handle read commands at the server/slave side is to implement the callback function type _CS101_ReadHandler_. 
+The read handler can be installed by the _CS104_Slave_setReadHandler_ or _CS101_Slave_setReadHandler_ functions for a CS 104 server or CS 101 slave.
+在服务器/从站端处理读命令最方便的方法是实现回调函数类型 CS101_ReadHandler。
+读处理器可以通过 CS104_Slave_setReadHandler 或 CS101_Slave_setReadHandler 函数为 CS 104 服务器或 CS 101 从站进行安装。
 
-In the read handler you have either to send the same read command but with a COT that indicates an error. Or you have to create the ASDU of the proper type for the data point and send this back to the client/master. When doing the latter you have to use the COT _CS101_COT_REQUEST_ to indicate that the message was caused by a read request.
+In the read handler you have either to send the same read command but with a COT that indicates an error. 
+Or you have to create the ASDU of the proper type for the data point and send this back to the client/master. 
+When doing the latter you have to use the COT _CS101_COT_REQUEST_ to indicate that the message was caused by a read request.
+在读处理器中，你或者需要发送相同的读命令，但使用指示错误的 COT。或者你需要为数据点创建适当的 ASDU 类型并发送回客户端/主站。
+在执行后者时，必须使用 COT CS101_COT_REQUEST 来指示消息是由读请求引起的。
 
 [[app-listing]]
 [source, c]
-.Simple implementation of a read handler (pseudo code)
+.Simple implementation of a read handler (pseudo code)读处理器的简单实现（伪代码）
 ----
 static bool
 readHandler(void* parameter, IMasterConnection connection, CS101_ASDU asdu, int ioa)
@@ -630,55 +821,80 @@ readHandler(void* parameter, IMasterConnection connection, CS101_ASDU asdu, int 
 }
 ----
 
-=== CS104 (TCP/IP) specific issues
+=== CS104 (TCP/IP) specific issues 特定问题
 
-==== Server mode
+==== Server mode 服务器模式
 
-The server provides three different modes:
+The server provides three different modes: 服务器提供三种不同的模式：
 
-The default mode (_CS104_MODE_SINGLE_REDUNDANCY_GROUP_) allows only a *single active client connection*. An active client connection is a connection where ASDUs are sent. All other connections are standby connections. There is a single queue for events. Events are also stored when no client is connected or when no connection is active.
+The default mode (_CS104_MODE_SINGLE_REDUNDANCY_GROUP_) allows only a *single active client connection*. 
+An active client connection is a connection where ASDUs are sent. All other connections are standby connections. 
+There is a single queue for events. Events are also stored when no client is connected or when no connection is active.
+默认模式（CS104_MODE_SINGLE_REDUNDANCY_GROUP）仅允许单个活动客户端连接。活动客户端连接是指发送 ASDU 的连接。
+所有其他连接都是备用连接。有一个事件队列。当没有客户端连接或没有活动连接时，事件也会被存储。
 
-The second mode (_CS104_MODE_CONNECTION_IS_REDUNDANCY_GROUP_) allows *multiple active client connections*. Every connection has its own event queue. The event queue will be deleted when the client connection is closed. This mode has to be used when more then one client has to access the application data.
+The second mode (_CS104_MODE_CONNECTION_IS_REDUNDANCY_GROUP_) allows *multiple active client connections*.
+Every connection has its own event queue. The event queue will be deleted when the client connection is closed.
+This mode has to be used when more then one client has to access the application data.
+第二种模式（CS104_MODE_CONNECTION_IS_REDUNDANCY_GROUP）允许多个活动客户端连接。每个连接都有自己的事件队列。
+当客户端连接关闭时，事件队列将被删除。当多个客户端需要访问应用程序数据时，必须使用此模式。
 
-The third mode (_CS104_MODE_MULTIPLE_REDUNDANCY_GROUPS_) is the most flexible mode and allows to define specific _redundancy groups_. These redundany groups are groups of clients that share the same event queue. For each redundancy group there is a seperate event queue instance.
+The third mode (_CS104_MODE_MULTIPLE_REDUNDANCY_GROUPS_) is the most flexible mode and allows to define specific _redundancy groups_. 
+These redundany groups are groups of clients that share the same event queue. For each redundancy group there is a seperate event queue instance.
+第三种模式（CS104_MODE_MULTIPLE_REDUNDANCY_GROUPS）是最灵活的模式，允许定义特定的冗余组。
+这些冗余组是共享相同事件队列的客户端组。每个冗余组都有一个单独的事件队列实例。
 
 The server mode can be set with the _CS104_Slave_setServerMode_ function.
+服务器模式可以通过 CS104_Slave_setServerMode 函数设置。
 
       CS104_Slave_setServerMode(slave, CS104_MODE_CONNECTION_IS_REDUNDANCY_GROUP);
 
-==== Restrict the number of client connections
+==== Restrict the number of client connections 限制客户端连接数
 
 The number of clients can be restricted with the _CS104_Slave_setMaxOpenConnections_ function.
+客户端数量可以通过 CS104_Slave_setMaxOpenConnections 函数进行限制。
 
   CS104_Slave_setMaxOpenConnections(slave, 2);
 
 In this case the server will only allow two concurrent client connections.
+在此情况下，服务器将仅允许两个并发客户端连接。
 
-==== Setting local port and IP address
+==== Setting local port and IP address 设置本地端口和 IP 地址
 
 The default TCP port for IEC 60870-5-104 is 2404. The port can be changed with the _CS104_Slave_setLocalPort_ function.
+IEC 60870-5-104 的默认 TCP 端口是 2404。可以使用 CS104_Slave_setLocalPort 函数更改端口。
 
   CS104_Slave_setLocalPort(slave, 2405);
 
-By default the server listens to all local IP addresses. With the _CS104_Slave_setLocalAddress_ function it is possible to restrict the server to listen to a single local IP address.
+By default the server listens to all local IP addresses. 
+With the _CS104_Slave_setLocalAddress_ function it is possible to restrict the server to listen to a single local IP address.
+默认情况下，服务器监听所有本地 IP 地址。使用 CS104_Slave_setLocalAddress 函数可以限制服务器只监听单个本地 IP 地址。
 
   CS104_Slave_setLocalAddress(slave, "192.168.1.50");
 
 With this setting the CS104 server will only listen on the local interface with the assigned IP address 192.168.1.50.
+设置后，CS104 服务器将只在本地的指定 IP 地址 192.168.1.50 上监听。
 
-==== Set a connection request handler to restrict the access and track connections
+==== Set a connection request handler to restrict the access and track connections设置连接请求处理器以限制访问和跟踪连接
 
-The _CS104_ConnectionRequestHandler_ can be used to restrict the access to the server. With the return value the application can allow or deny the connection attempts of a client.
+The _CS104_ConnectionRequestHandler_ can be used to restrict the access to the server.
+With the return value the application can allow or deny the connection attempts of a client.
+CS104_ConnectionRequestHandler 可以用于限制对服务器的访问。通过返回值，应用程序可以允许或拒绝客户端的连接尝试。
 
-A _CS104_ConnectionRequestHandler_ can be set with the _CS104_Slave_setConnectionRequestHandler_ function. The second parameter is an arbitrary user provided object that will be passed to the handler when it is called. If not needed it can be set to _NULL_.
+A _CS104_ConnectionRequestHandler_ can be set with the _CS104_Slave_setConnectionRequestHandler_ function. 
+The second parameter is an arbitrary user provided object that will be passed to the handler when it is called.
+If not needed it can be set to _NULL_.
+CS104_ConnectionRequestHandler 可以通过 CS104_Slave_setConnectionRequestHandler 函数进行设置。
+第二个参数是一个任意用户提供的对象，当处理器被调用时，该对象将被传递给处理器。如果不需要，可以设置为 NULL。
 
   CS104_Slave_setConnectionRequestHandler(slave, connectionRequestHandler, NULL);
 
 In the handler you can optionally check the client IP address against a whitelist of allowed clients or implement a blacklist.
+在处理器中，你可以选择性地检查客户端 IP 地址是否在允许的客户端白名单中，或实现黑名单。
 
 [[app-listing]]
 [source, c]
-.Example how to implement a ConnectionRequestHandler
+.Example how to implement a ConnectionRequestHandler 实现一个 ConnectionRequestHandler 的示例
 ----
 static bool connectionRequestHandler(void* parameter, const char* ipAddress)
 {
@@ -693,17 +909,20 @@ static bool connectionRequestHandler(void* parameter, const char* ipAddress)
 
 
 
-==== Create a secure connection with TLS
+==== Create a secure connection with TLS 创建一个安全的 TLS 连接
 
 The CS 104 standard can also be used with TLS to realize secure and authenticated connections.
+CS 104 标准也可以与 TLS 一起使用，以实现安全和认证的连接。
 
 In order to use TLS, the related parameters, certificates, and private keys have to be configured.
+要使用 TLS，必须配置相关的参数、证书和私钥。
 
 The configuration is stored in a _TLSConfiguration_ object. A new configuration object can be created with the _TLSConfiguration_create_ function.
+配置信息存储在 TLSConfiguration 对象中。可以使用 TLSConfiguration_create 函数创建新的配置对象。
 
 [[app-listing]]
 [source, c]
-.Example how to create a CS 104 slave with TLS support
+.Example how to create a CS 104 slave with TLS support 创建支持 TLS 的 CS 104 从站的示例
 ----
 TLSConfiguration tlsConfig = TLSConfiguration_create();
 
@@ -720,15 +939,24 @@ TLSConfiguration_addAllowedCertificateFromFile(tlsConfig, "client1.cer");
 CS104_Slave slave = CS104_Slave_createSecure(100, 100, tlsConfig);
 ----
 
-== lib60870-C specific topics
+== lib60870-C specific topics 特定主题
 
-=== Debug output
+=== Debug output 调试输出
 
-The debug output to the console can be enabled by setting _CONFIG_DEBUG_OUTPUT_ to 1. This will enable the debug output by default. The debug output can be disabled my using the function *Lib60870_enableDebugOutput*. The default implementation of the debug output function will print to the console (using printf). If you need to redirect the output the most easy way would be to change the implementation of the debug output *lib60870_debug_print* function in _lib60870_common.c_.
+The debug output to the console can be enabled by setting _CONFIG_DEBUG_OUTPUT_ to 1. 
+This will enable the debug output by default. The debug output can be disabled my using the function *Lib60870_enableDebugOutput*. 
+The default implementation of the debug output function will print to the console (using printf). 
+If you need to redirect the output the most easy way would be to change the implementation of the debug output *lib60870_debug_print* function in _lib60870_common.c_.
+可以通过设置 CONFIG_DEBUG_OUTPUT 为 1 来启用控制台调试输出。这将默认启用调试输出。您可以使用函数 Lib60870_enableDebugOutput 来禁用调试输出。
+调试输出函数的默认实现将输出到控制台（使用 printf）。如果您需要重定向输出，最简单的方法是更改 lib60870_common.c 中的 lib60870_debug_print 函数的实现。
 
-=== Big endian platforms
+=== Big endian platforms 大端平台
 
-The library contains a C header file to determine the platform byte order (_src/inc/internal/platform_endian.h_) when using the GCC compiler. This depends on defines that are provided by the C compiler. On some older big endian platforms like PowerPC or Coldfire depending on the compiler this may fail. You may have to define
+The library contains a C header file to determine the platform byte order (_src/inc/internal/platform_endian.h_) when using the GCC compiler. 
+This depends on defines that are provided by the C compiler. On some older big endian platforms like PowerPC or Coldfire depending on the compiler this may fail. 
+You may have to define
+该库包含一个 C 头文件，用于确定平台字节序（src/inc/internal/platform_endian.h），在使用 GCC 编译器时。
+这取决于 C 编译器提供的定义。在一些较旧的大端平台（如 PowerPC 或 Coldfire）上，根据编译器不同，这可能会失败。您可能需要定义
 
   PLATFORM_IS_BIGENDIAN 1
 
@@ -740,17 +968,21 @@ E.g. put
 
 on the GCC command line when the platform byte order is big endian.
 
-=== Configuration options at library compile time
+=== Configuration options at library compile time 库编译时的配置选项
 
 Some configuration options are fixed at compile time of the library code. These options can be found in the file *lib60870_config.h*.
+一些配置选项在库代码编译时是固定的。这些选项可以在文件 lib60870_config.h 中找到。
 
-Compile time options include the support for specific CS 104 redundancy modes, support for threads and semaphores (required when the library uses threads), maximum number of TCP connections for CS 104 slave, and others.
+Compile time options include the support for specific CS 104 redundancy modes, support for threads and semaphores
+(required when the library uses threads), maximum number of TCP connections for CS 104 slave, and others.
+编译时选项包括对特定 CS 104 冗余模式的支持、对线程和信号量的支持（当库使用线程时需要）、CS 104 从机的最大 TCP 连接数以及其他选项。
 
-== Reference information
+== Reference information 参考信息
 
-=== Supported message types
+=== Supported message types 支持的消息类型
 
 The library supports the following ASDU (application service data unit) types.
+该库支持以下应用服务数据单元（ASDU）类型。
 
 .IEC 60870-5-101/104 message types
 [width="90%",cols="n,10,1,1",frame="topbot",options="header"]
@@ -758,25 +990,25 @@ The library supports the following ASDU (application service data unit) types.
 | Message type | Description | C | C#
 | M_SP_NA_1(1) | Single point information (BOOLEAN)  | + | +
 | M_SP_TA_1(2) | Single point information (BOOLEAN) with CP24Time2a | + | +
-| M_DP_NA_1(3) | Double point information (ON/OFF/transient)  | + | +
+| M_DP_NA_1(3) | Double point information (ON/OFF/transient)  | + | + 双点信息（开/关/瞬态）
 | M_DP_TA_1(4) | Double point information (ON/OFF/transient) with CP24Time2a  | + | +
 | M_ST_NA_1(5) | Step position information (-64 ... 63, is transient)  | + | +
 | M_ST_TA_1(6) | Step position information (-64 ... 63, is transient) with CP24Time2a | + | +
 | M_BO_NA_1(7) | Bitstring32 (32 bit bitstring)  | + | +
 | M_BO_TA_1(8) | Bitstring32 (32 bit bitstring) with CP24Time2a | + | +
-| M_ME_NA_1(9) | Normalized measured value (-1.0 ... +1.0)  | + | +
+| M_ME_NA_1(9) | Normalized measured value (-1.0 ... +1.0)  | + | + 归一化测量值 (-1.0 …​ +1.0)
 | M_ME_TA_1(10) | Normalized measured value (-1.0 ... +1.0) with CP24Time2a | + | +
-| M_ME_NB_1(11) | Scaled measured value (-32768 ... +32767)  | + | +
+| M_ME_NB_1(11) | Scaled measured value (-32768 ... +32767)  | + | + 标度测量值（-32768 …​ +32767） 
 | M_ME_TB_1(12) | Scaled measured value (-32768 ... +32767) with CP24Time2a | + | +
-| M_ME_NC_1(13) | Short measured value (FLOAT32)  | + | +
+| M_ME_NC_1(13) | Short measured value (FLOAT32)  | + | + 短测量值 (FLOAT32)
 | M_ME_TC_1(14) | Short measured value (FLOAT32) with CP24Time2a | + | +
-| M_IT_NA_1(15) | Integrated totals (INT32 with quality indicators)  | + | +
+| M_IT_NA_1(15) | Integrated totals (INT32 with quality indicators)  | + | + 带质量指标的集成总量（INT32）
 | M_IT_TA_1(16) | Integrated totals (INT32 with quality indicators) with CP24Time2a | + | +
-| M_EP_TA_1(17) | Event of protection equipment | + | +
-| M_EP_TB_1(18) | Packed start events of protection equipment | + | +
-| M_EP_TC_1(19) | Packed output circuit info | + | +
-| M_PS_NA_1(20) | Packed single point with SCD | + | +
-| M_ME_ND_1(21) | Normalized measured value (-1.0 ... +1.0) without quality | + | +
+| M_EP_TA_1(17) | Event of protection equipment | + | + 保护设备事件
+| M_EP_TB_1(18) | Packed start events of protection equipment | + | + 保护设备的打包启动事件
+| M_EP_TC_1(19) | Packed output circuit info | + | + 打包输出电路信息
+| M_PS_NA_1(20) | Packed single point with SCD | + | + 打包单点，带 SCD
+| M_ME_ND_1(21) | Normalized measured value (-1.0 ... +1.0) without quality | + | + 归一化测量值（-1.0 …​ +1.0）不带质量
 | M_SP_TB_1(30) | Single point information (BOOLEAN) with CP56Time2a | + | +
 | M_DP_TB_1(31) | Double point information (ON/OFF/transient) with CP56Time2a  | + | +
 | M_ST_TB_1(32) | Step position information (-64 ... 63, is transient) with CP56Time2a  | + | +
@@ -788,13 +1020,13 @@ The library supports the following ASDU (application service data unit) types.
 | M_EP_TD_1(38) | Event of protection equipment with CP56Time2a | + | +
 | M_EP_TE_1(39) | Packed start events of protection equipment with CP56Time2a | + | +
 | M_EP_TF_1(40) | Packed output circuit info with CP56Time2a | + | +
-| C_SC_NA_1(45) | Single command (BOOLEAN) | + | +
-| C_DC_NA_1(46) | Double command (ON/OFF/transient) | + | +
-| C_RC_NA_1(47) | Step command | + | +
-| C_SE_NA_1(48) | Setpoint command, normalized value (-1.0 ... +1.0)| + | +
-| C_SE_NB_1(49) | Setpoint command, scaled value (-32768 ... +32767) | + | +
-| C_SE_NC_1(50) | Setpoint command, short value (FLOAT32)| + | +
-| C_BO_NA_1(51) | Bitstring command (32 bit bitstring)  | + | +
+| C_SC_NA_1(45) | Single command (BOOLEAN) | + | +  单命令（布尔值）
+| C_DC_NA_1(46) | Double command (ON/OFF/transient) | + | +  双命令（开/关/瞬态）
+| C_RC_NA_1(47) | Step command | + | +  步进命令
+| C_SE_NA_1(48) | Setpoint command, normalized value (-1.0 ... +1.0)| + | +设定点命令，归一化值（-1.0 …​ +1.0）
+| C_SE_NB_1(49) | Setpoint command, scaled value (-32768 ... +32767) | + | +设定点命令，缩放值（-32768 …​ +32767）
+| C_SE_NC_1(50) | Setpoint command, short value (FLOAT32)| + | +设定点指令，短值（FLOAT32）
+| C_BO_NA_1(51) | Bitstring command (32 bit bitstring)  | + | + 位串命令（32 位位串）
 
 | C_SC_TA_1(58) | Single command (BOOLEAN) with CP56Time2a | + | +
 | C_DC_TA_1(59) | Double command (ON/OFF/transient) with CP56Time2a | + | +
@@ -830,18 +1062,25 @@ The library supports the following ASDU (application service data unit) types.
 | F_SC_NB_1(127) | Query log | + | +
 |===
 
-=== CS 104 specific parameters
+=== CS 104 specific parameters 特定参数
 
 The following parameters are stored in *CS104_ConnectionParameters* objects.
+CS104_ConnectionParameters 对象中存储了以下参数。
 
 .IEC 60870-5-104 parameters
 [width="90%",cols="n,10",frame="topbot",options="header"]
 |===
 |Parameter        |Description
 |k       |Number of unconfirmed APDUs in I format. Sender will stop transmission after k unconfirmed I messages.
+          I 格式未确认的 APDU 数量。发送方在发送 k 个未确认的 I 消息后停止传输。
 |w       |Number of unconfirmed APDUs in I format. Receiver will confirm latest after w messages
-|t0      |Timeout for connection establishment (in s)
-|t1      |Timeout for transmitted APDUs in I/U format (in s). When timeout elapsed without confirmation the connection will be closed. This is used by the sender to determine if the receiver has failed to confirm a message.
+          I 格式未确认 APDUs 的数量。接收器将在 w 个消息后确认最新消息
+|t0      |Timeout for connection establishment (in s)连接建立超时时间（秒）
+|t1      |Timeout for transmitted APDUs in I/U format (in s). When timeout elapsed without confirmation the connection will be closed.
+          This is used by the sender to determine if the receiver has failed to confirm a message.
+          I/U 格式传输 APDUs 的超时时间（秒）。当超时后未收到确认，连接将被关闭。这用于发送方确定接收方是否未能确认消息。
 |t2      |Timeout to confirm messages (in s). This timeout is used by the receiver to determine the time when the message confirmation has to be sent.
+          确认消息的超时时间（秒）。该超时时间用于接收方确定必须发送消息确认的时间。
 |t3      |Timeout to send test telegrams in case of an idle connection
+          空闲连接时发送测试报文的超时时间
 |===

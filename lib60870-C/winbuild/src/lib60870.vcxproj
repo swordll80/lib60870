@@ -84,12 +84,14 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
-      <MinimalRebuild></MinimalRebuild>
+      <MinimalRebuild>
+      </MinimalRebuild>
       <Optimization>Disabled</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <SupportJustMyCode></SupportJustMyCode>
+      <SupportJustMyCode>
+      </SupportJustMyCode>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
@@ -119,12 +121,14 @@
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
-      <MinimalRebuild></MinimalRebuild>
+      <MinimalRebuild>
+      </MinimalRebuild>
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <SupportJustMyCode></SupportJustMyCode>
+      <SupportJustMyCode>
+      </SupportJustMyCode>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
@@ -156,12 +160,14 @@
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <MinimalRebuild></MinimalRebuild>
+      <MinimalRebuild>
+      </MinimalRebuild>
       <Optimization>MinSpace</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <SupportJustMyCode></SupportJustMyCode>
+      <SupportJustMyCode>
+      </SupportJustMyCode>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
@@ -194,12 +200,14 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <MinimalRebuild></MinimalRebuild>
+      <MinimalRebuild>
+      </MinimalRebuild>
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <SupportJustMyCode></SupportJustMyCode>
+      <SupportJustMyCode>
+      </SupportJustMyCode>
       <UseFullPaths>false</UseFullPaths>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
@@ -420,7 +428,43 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ClCompile>
     <ResourceCompile Include="C:\code\lib60870\lib60870-C\winbuild\src\version.rc" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ClInclude Include="..\..\src\common\inc\linked_list.h" />
+    <ClInclude Include="..\..\src\file-service\cs101_file_service.h" />
+    <ClInclude Include="..\..\src\hal\inc\hal_base.h" />
+    <ClInclude Include="..\..\src\hal\inc\hal_serial.h" />
+    <ClInclude Include="..\..\src\hal\inc\hal_socket.h" />
+    <ClInclude Include="..\..\src\hal\inc\hal_thread.h" />
+    <ClInclude Include="..\..\src\hal\inc\hal_time.h" />
+    <ClInclude Include="..\..\src\hal\inc\lib_memory.h" />
+    <ClInclude Include="..\..\src\hal\inc\platform_endian.h" />
+    <ClInclude Include="..\..\src\hal\inc\tls_ciphers.h" />
+    <ClInclude Include="..\..\src\hal\inc\tls_config.h" />
+    <ClInclude Include="..\..\src\hal\inc\tls_socket.h" />
+    <ClInclude Include="..\..\src\hal\tls\mbedtls3\mbedtls_config.h" />
+    <ClInclude Include="..\..\src\hal\tls\mbedtls\mbedtls_config.h" />
+    <ClInclude Include="..\..\src\inc\api\cs101_information_objects.h" />
+    <ClInclude Include="..\..\src\inc\api\cs101_master.h" />
+    <ClInclude Include="..\..\src\inc\api\cs101_slave.h" />
+    <ClInclude Include="..\..\src\inc\api\cs104_connection.h" />
+    <ClInclude Include="..\..\src\inc\api\cs104_slave.h" />
+    <ClInclude Include="..\..\src\inc\api\iec60870_common.h" />
+    <ClInclude Include="..\..\src\inc\api\iec60870_master.h" />
+    <ClInclude Include="..\..\src\inc\api\iec60870_slave.h" />
+    <ClInclude Include="..\..\src\inc\api\link_layer_parameters.h" />
+    <ClInclude Include="..\..\src\inc\internal\apl_types_internal.h" />
+    <ClInclude Include="..\..\src\inc\internal\buffer_frame.h" />
+    <ClInclude Include="..\..\src\inc\internal\cs101_asdu_internal.h" />
+    <ClInclude Include="..\..\src\inc\internal\cs101_queue.h" />
+    <ClInclude Include="..\..\src\inc\internal\cs104_frame.h" />
+    <ClInclude Include="..\..\src\inc\internal\frame.h" />
+    <ClInclude Include="..\..\src\inc\internal\information_objects_internal.h" />
+    <ClInclude Include="..\..\src\inc\internal\lib60870_internal.h" />
+    <ClInclude Include="..\..\src\inc\internal\link_layer.h" />
+    <ClInclude Include="..\..\src\inc\internal\link_layer_private.h" />
+    <ClInclude Include="..\..\src\inc\internal\platform_endian.h" />
+    <ClInclude Include="..\..\src\inc\internal\serial_transceiver_ft_1_2.h" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="C:\code\lib60870\lib60870-C\winbuild\ZERO_CHECK.vcxproj">
       <Project>{8952354A-04F7-3938-8B84-A71F1BD7A03B}</Project>
@@ -428,6 +472,11 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\.gitignore" />
+    <None Include="..\..\..\README.md" />
+    <None Include="..\..\..\user_guide.adoc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
